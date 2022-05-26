@@ -16,6 +16,7 @@ class _add_data_pageState extends State<add_data_page> {
   int type = 1;
   Employee emp;
   String heading = "";
+  String butten_name="";
 
   _add_data_pageState(this.type, this.emp);
 
@@ -30,8 +31,10 @@ class _add_data_pageState extends State<add_data_page> {
   Widget build(BuildContext context) {
     if (this.type == 1) {
       this.heading = "ADD";
+      this.butten_name="SAVE";
     } else {
       this.heading = "EDIT";
+      this.butten_name="UPDATE";
       setState(() {
         name.text = this.emp.name.toString();
         age.text = this.emp.age.toString();
@@ -55,6 +58,7 @@ class _add_data_pageState extends State<add_data_page> {
           actions: [deleteButton(type)],
       leading: BackButton(
         onPressed: () {
+          delete_employee();
           Navigator.pop(context, true);
         },
       ),
@@ -115,24 +119,10 @@ class _add_data_pageState extends State<add_data_page> {
     children: [
     ElevatedButton(
     onPressed: () {
-    Employee emp1 = Employee(
-    name.text,
-    int.parse(age.text),
-    address.text,
-    designation.text,
-    double.parse(mark_percentage.text));
-    DatabaseHelper db = DatabaseHelper();
-    db.insertUser(emp1);
-    getUesers();
+      submit();
 
-    name.clear();
-    age.clear();
-    address.clear();
-    designation.clear();
-    mark_percentage.clear();
-    updatebutton();
     },
-    child: Text('Submit'))
+    child: Text(butten_name))
     ]
     ,
     )
@@ -141,14 +131,39 @@ class _add_data_pageState extends State<add_data_page> {
     )
     );
   }
-Widget updatebutton(type){
 
-}
+  void submit()
+  {
+    Employee emp1 = Employee(
+        name.text,
+        int.parse(age.text),
+        address.text,
+        designation.text,
+        double.parse(mark_percentage.text));
+    if(type==1)
+      {
+        db.insertUser(emp1);
+      }else{
+      db.updateUser(emp1);
+    }
+
+    name.clear();
+    age.clear();
+    address.clear();
+    designation.clear();
+    mark_percentage.clear();
+  }
+
   Widget deleteButton(type) {
     return type == 2
         ? TextButton(
         onPressed: () {}, child: Icon(Icons.delete, color: Colors.white))
         : Container();
+  }
+
+  void delete_employee() {
+
+    db.deleteUser(emp.id);
   }
 }
 
