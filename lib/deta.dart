@@ -1,0 +1,3 @@
+void hai(){
+  print('hai');
+}
