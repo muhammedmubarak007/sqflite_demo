@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 class Employee {
   int? _id;
+
+  int? get id => _id;
   String? _name;
   int? _age;
   String? _address;
@@ -18,9 +20,12 @@ class Employee {
   String? get designation => _designation;
 
   double? get mark_percentage => _mark_percentage;
+  Employee.empty();
 
 
   Employee(this._name,this._age,this._address,this._designation,this._mark_percentage);
+
+
 
 
   Map<String, dynamic> toMap() {

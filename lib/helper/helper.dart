@@ -66,6 +66,20 @@ class DatabaseHelper {
     return result;
   }
 
+  // Update Operation: Update a Note object and save it to database
+  Future<int> updateUser(Employee note) async {
+    var db = await this.database;
+    var result = await db.update(emptable, note.toMap(), where: '$colId = ?', whereArgs: [note.id]);
+    return result;
+  }
+
+  // Delete Operation: Delete a Note object from database
+  Future<int> deleteUser(int id) async {
+    var db = await this.database;
+    int result = await db.rawDelete('DELETE FROM $emptable WHERE $colId = $id');
+    return result;
+  }
+
 
   //get users
 
